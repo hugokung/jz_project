@@ -1,0 +1,29 @@
+MOV R2,04H
+MOV R1,00H
+LZ: IN1 R0
+    STO R0,(R1)
+    INC R1
+    DEC R2
+    TEST R2
+    JNS LZ
+
+MOV R2,04H   ;将4存入R2。
+MOV R3,00H   ;将0存入R3。
+MOV R1,00H
+
+L1：TEST R2      ;测试R2是否大于0。
+     JNS L3       ;若大于则跳转L3。
+    JMP LEND      ;跳转到L0输出结果
+
+L2：MUL R0,R0    ;求平方。
+    ADD R0,R3   ;R0与R3数相加，将结果存入R3。
+    JMP L1      ;跳转L1。
+
+L3： DEC R2      ;每输入一次数R2就减1。
+     LAD (R1),R0      ;输入一个数到R0。
+     INC R1         
+     TEST R0     ;测试（R0）是否为正。
+     JNS L1       ;若为正则跳转到L1
+     JMP L2	    ;若为负则跳转L2。
+
+LEND：OUT1 R3      ;计数达5次则结束输出，输出R0的结果内容
